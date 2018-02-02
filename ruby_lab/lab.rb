@@ -52,7 +52,7 @@ def roboticize(string)
   # This should get you familiar with strings, iterators, and blocks
 
   # *********** YOUR CODE HERE *********** #
-  nil
+  string.split.each { |word| word.capitalize!}.join(". ")
 end
 
 
