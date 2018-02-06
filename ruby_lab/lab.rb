@@ -104,7 +104,8 @@ def scrabble(word)
     z: 10,
   }
   # *********** YOUR CODE HERE *********** #
-  nil
+  chararray = word.scan /\w/
+  chararray.sum { |char| values[char.to_sym] }
 end
 
 
@@ -123,7 +124,19 @@ def rhyming()
   words.select! { |word| word.length > 5 }
 
   # *********** YOUR CODE HERE *********** #
-  nil
+  suffix = {arange: [], erange: [], irange: [], orange: [], urange: []}
+
+  words.each do |word|
+    lastsix = word[-6..-1]
+    if lastsix.end_with?("range")
+      if suffix[lastsix.to_sym]
+        suffix[lastsix.to_sym] << word
+      end
+    end
+  end
+  
+  return suffix  
+
 end
 
 
@@ -168,7 +181,7 @@ class Currency
     # objects are represented in CENTS. See Dollar for more detail.
     yen_in_dollar = 113.32
     # *********** 3. YOUR CODE BEGINS HERE *********** #
-    nil
+    self.value <=> other.value
     # *********** 3. YOUR CODE ENDS HERE *********** #
   end
 
@@ -204,7 +217,9 @@ class Yen < Currency
   # Your Yen object should print out in the following format: "Yen: ¥3000".
   # Feel free to implement more methods in this class later for your own convenience.
   # *********** 1. YOUR CODE BEGINS HERE *********** #
-
+  def to_s
+    "Yen: ¥#{value}"
+  end
   # *********** 1. YOUR CODE ENDS HERE *********** #
 end
 
@@ -221,7 +236,7 @@ class String
       $1 ? Dollar.new(value) : Dollar.new(value * 100)
     elsif self =~ /^¥[\d,]+$/  # Matches yen money format (no decimal)
       # *********** 2. YOUR CODE BEGINS HERE *********** #
-      nil
+      Yen.new(value)
       # *********** 2. YOUR CODE ENDS HERE *********** #
     else
       raise TypeError.new("Cannot convert #{self} to currency.")
